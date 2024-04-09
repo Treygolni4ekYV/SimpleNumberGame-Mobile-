@@ -10,50 +10,71 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <HorizontalStackLayout
-            Grid.Row="0"
-            HorizontalOptions="Center">
+        <Grid
+            Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
             
-            <!--Место для сердец-->
-            <Image 
-                Source="heart.svg"
-                WidthRequest="100"/>
-            <Image 
-                Source="heart.svg"
-                WidthRequest="100"/>
-            <Image 
-                Source="heart.svg"
-                WidthRequest="100"/>
-
-        </HorizontalStackLayout>
-
-        <VerticalStackLayout
-            VerticalOptions="Center"
-            Grid.Row="1">
+            <HorizontalStackLayout
+                Grid.Row="0"
+                HorizontalOptions="Center"
+                Spacing="10">
             
+                <!--Место для сердец-->
+                <Image 
+                    Source="heart.svg"
+                    Style="{StaticResource HealthImage_Style}"/>
+                <Image 
+                    Source="heart.svg"
+                    Style="{StaticResource HealthImage_Style}"/>
+                <Image 
+                    Source="heart.svg"
+                    Style="{StaticResource HealthImage_Style}"/>
+
+            </HorizontalStackLayout>
+
             <Label
+                x:Name="TimeLabel"
                 Grid.Row="1"
-                Margin="0,0,0,15"
+                Margin="0,15,0,0"
                 HorizontalOptions="Center"
                 FontSize="26"
-                Text="000:00"/>
+                Text="Время: 000:00"/>
+            
+            <Label
+                x:Name="ScoreLabel"
+                Grid.Row="2"
+                HorizontalOptions="Center"
+                FontSize="26"
+                Text="Cxtn: 999999"/>
+        </Grid>
+
+        <VerticalStackLayout
+            Grid.Row="1"
+            Spacing="10"
+            VerticalOptions="Center">
 
             <!--Сюда будет выводиться пример-->
             <Label
-                x:Name="Equation_Label"
+                x:Name="EquationLabel"
                 HorizontalOptions="Center"
                 FontSize="30"
                 Text="77 + 33=?"/>
 
             <Entry
-                Keyboard="Numeric"
+                x:Name="AnsverInput"
+                IsReadOnly="True"
                 Placeholder="Ответ"
                 WidthRequest="200"
                 Completed="ConfirmAnswer_Click"/>
 
             <Button
                 Margin="0,5,0,0"
-                Text="Подтвердить"/>
+                Text="Подтвердить"
+                Clicked="ConfirmAnswer_Click"/>
 
         </VerticalStackLayout>
     </Grid>

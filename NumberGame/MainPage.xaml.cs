@@ -9,7 +9,20 @@
 
         private async void StartGame_Click(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new GamePage());
+            var name = await DisplayPromptAsync("Имя пользователя", "Введите имя:", "Продолжить", "Отмена");
+
+            //если значение равно null, выбрана отмена
+            if (name == null)
+            {
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = "Игрок";
+            }
+
+            await Navigation.PushAsync(new GamePage(name));
         }
     }
 

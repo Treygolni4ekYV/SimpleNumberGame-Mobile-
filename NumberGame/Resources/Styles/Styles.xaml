@@ -424,4 +424,9 @@
         <Setter Property="SelectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
     </Style>
 
+    <Style TargetType="Image" x:Key="HealthImage_Style">
+        <Setter Property="HeightRequest" Value="75"/>
+    </Style>
+    
+
 </ResourceDictionary>
