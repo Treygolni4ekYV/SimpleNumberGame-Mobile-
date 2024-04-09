@@ -16,13 +16,13 @@
             
             <!--Место для сердец-->
             <Image 
-                Source="dotnet_bot.png"
+                Source="heart.svg"
                 WidthRequest="100"/>
             <Image 
-                Source="dotnet_bot.png"
+                Source="heart.svg"
                 WidthRequest="100"/>
             <Image 
-                Source="dotnet_bot.png"
+                Source="heart.svg"
                 WidthRequest="100"/>
 
         </HorizontalStackLayout>
