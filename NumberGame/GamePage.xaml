@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NumberGame.GamePage">
+    <Grid
+        Padding="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <HorizontalStackLayout
+            Grid.Row="0"
+            HorizontalOptions="Center">
+            
+            <!--Место для сердец-->
+            <Image 
+                Source="dotnet_bot.png"
+                WidthRequest="100"/>
+            <Image 
+                Source="dotnet_bot.png"
+                WidthRequest="100"/>
+            <Image 
+                Source="dotnet_bot.png"
+                WidthRequest="100"/>
+
+        </HorizontalStackLayout>
+
+        <VerticalStackLayout
+            VerticalOptions="Center"
+            Grid.Row="1">
+            
+            <Label
+                Grid.Row="1"
+                Margin="0,0,0,15"
+                HorizontalOptions="Center"
+                FontSize="26"
+                Text="000:00"/>
+
+            <!--Сюда будет выводиться пример-->
+            <Label
+                x:Name="Equation_Label"
+                HorizontalOptions="Center"
+                FontSize="30"
+                Text="77 + 33=?"/>
+
+            <Entry
+                Keyboard="Numeric"
+                Placeholder="Ответ"
+                WidthRequest="200"
+                Completed="ConfirmAnswer_Click"/>
+
+            <Button
+                Margin="0,5,0,0"
+                Text="Подтвердить"/>
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
