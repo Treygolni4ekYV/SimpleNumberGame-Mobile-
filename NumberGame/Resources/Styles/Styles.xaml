@@ -427,6 +427,11 @@
     <Style TargetType="Image" x:Key="HealthImage_Style">
         <Setter Property="HeightRequest" Value="75"/>
     </Style>
-    
+
+    <Style TargetType="Button" x:Key="NumberKayboardButton_Style">
+        <Setter Property="WidthRequest" Value="80"/>
+        <Setter Property="HeightRequest" Value="50"/>
+        <Setter Property="FontSize" Value="22"/>
+    </Style>
 
 </ResourceDictionary>

@@ -6,8 +6,8 @@
         Padding="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="3*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <Grid
@@ -19,18 +19,22 @@
             </Grid.RowDefinitions>
             
             <HorizontalStackLayout
+                x:Name="HealthContainer"
                 Grid.Row="0"
                 HorizontalOptions="Center"
                 Spacing="10">
             
                 <!--Место для сердец-->
                 <Image 
+                    x:Name="Heart1Image"
                     Source="heart.svg"
                     Style="{StaticResource HealthImage_Style}"/>
                 <Image 
+                    x:Name="Heart2Image"
                     Source="heart.svg"
                     Style="{StaticResource HealthImage_Style}"/>
                 <Image 
+                    x:Name="Heart3Image"
                     Source="heart.svg"
                     Style="{StaticResource HealthImage_Style}"/>
 
@@ -49,13 +53,14 @@
                 Grid.Row="2"
                 HorizontalOptions="Center"
                 FontSize="26"
-                Text="Cxtn: 999999"/>
+                Text="Счёт: 999999"/>
         </Grid>
 
         <VerticalStackLayout
             Grid.Row="1"
             Spacing="10"
             VerticalOptions="Center">
+            
 
             <!--Сюда будет выводиться пример-->
             <Label
@@ -63,19 +68,127 @@
                 HorizontalOptions="Center"
                 FontSize="30"
                 Text="77 + 33=?"/>
-
+            
+            <!--Возможно придется поменять-->
             <Entry
                 x:Name="AnsverInput"
                 IsReadOnly="True"
                 Placeholder="Ответ"
-                WidthRequest="200"
-                Completed="ConfirmAnswer_Click"/>
+                WidthRequest="200"/>
+
+        </VerticalStackLayout>
+
+        <Grid
+            Grid.Row="2"
+            HorizontalOptions="Center"
+            VerticalOptions="End"
+            RowSpacing="5"
+            ColumnSpacing="5">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
             <Button
-                Margin="0,5,0,0"
+                Text="1"
+                Grid.Column="0"
+                Grid.Row="0"
+                Style="{StaticResource NumberKayboardButton_Style}"
+                Clicked="EditNumber_Click"/>
+
+            <Button
+                Text="2"
+                Grid.Column="1"
+                Grid.Row="0"
+                Style="{StaticResource NumberKayboardButton_Style}"
+                Clicked="EditNumber_Click"/>
+
+            <Button
+                Text="3"
+                Grid.Column="2"
+                Grid.Row="0"
+                Style="{StaticResource NumberKayboardButton_Style}"
+                Clicked="EditNumber_Click"/>
+            
+            <Button
+                Text="4"
+                Grid.Column="0"
+                Grid.Row="1"
+                Style="{StaticResource NumberKayboardButton_Style}"
+                Clicked="EditNumber_Click"/>
+            
+            <Button
+                Text="5"
+                Grid.Column="1"
+                Grid.Row="1"
+                Style="{StaticResource NumberKayboardButton_Style}"
+                Clicked="EditNumber_Click"/>
+            
+            <Button
+                Text="6"
+                Grid.Column="2"
+                Grid.Row="1"
+                Style="{StaticResource NumberKayboardButton_Style}"
+                Clicked="EditNumber_Click"/>
+            
+            <Button
+                Text="7"
+                Grid.Column="0"
+                Grid.Row="2"
+                Style="{StaticResource NumberKayboardButton_Style}"
+                Clicked="EditNumber_Click"/>
+            
+            <Button
+                Text="8"
+                Grid.Column="1"
+                Grid.Row="2"
+                Style="{StaticResource NumberKayboardButton_Style}"
+                Clicked="EditNumber_Click"/>
+            
+            <Button
+                Text="9"
+                Grid.Column="2"
+                Grid.Row="2"
+                Style="{StaticResource NumberKayboardButton_Style}"
+                Clicked="EditNumber_Click"/>
+            
+            <Button
+                Text="."
+                Grid.Column="0"
+                Grid.Row="3"
+                Style="{StaticResource NumberKayboardButton_Style}"
+                Clicked="EditNumber_Click"/>
+            
+            <Button
+                Text="0"
+                Grid.Column="1"
+                Grid.Row="3"
+                Style="{StaticResource NumberKayboardButton_Style}"
+                Clicked="EditNumber_Click"/>
+            
+            <Button
+                Text="DEL"
+                Grid.Column="2"
+                Grid.Row="3"
+                Style="{StaticResource NumberKayboardButton_Style}"
+                Clicked="EditNumber_Click"/>
+
+            <Button
+                Grid.Row="4"
+                Grid.ColumnSpan="3"
+                FontSize="22"
                 Text="Подтвердить"
                 Clicked="ConfirmAnswer_Click"/>
 
-        </VerticalStackLayout>
+        </Grid>
     </Grid>
 </ContentPage>

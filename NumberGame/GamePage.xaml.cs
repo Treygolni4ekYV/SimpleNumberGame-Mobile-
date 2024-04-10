@@ -1,6 +1,7 @@
+using Android.Media;
 using System.Security.Principal;
-using System.Timers;
-using Timer = System.Timers.Timer;
+using System.Threading;
+using Timer = System.Threading.Timer;
 
 namespace NumberGame;
 
@@ -9,48 +10,69 @@ public partial class GamePage : ContentPage
 	Random random = new Random();
 
 	private string _playerName;
-	private int _score;
+	private int _score = 0;
+	private int _health = 3;
 
-	private Timer _timer;
-	private int _totalTime;
+	private IDispatcherTimer timer;
+	private int _totalTime = 0;
 
-	private double _correctAnswer;
-	private double _delta = 0.1; //максимальная погрешность игрока
+	private double correctAnswer;
+	private const double _delta = 0.1; //максимальная погрешность игрока
+	private const int correctAnswerPointsCount = 15;
 
 	public GamePage(string playerName)
 	{
 		InitializeComponent();
 
 		_playerName = playerName;
-		
+
 		//запускаем таймер
-		_timer = new Timer(1000);
-        _timer.Elapsed += _timer_Elapsed;
-		_timer.AutoReset = true;
-		_timer.Start();
+		timer = Dispatcher.CreateTimer();
+		timer.Interval = TimeSpan.FromSeconds(1);
+		timer.Tick += (s,e) => TimerCallback();
+		timer.Start();
 
 		GenerateRandomEquation();
 	}
 
     ~GamePage() 
 	{
-		_timer.Stop();
-
 		//сделать систему сохранения
+		timer.Stop();
 	}
-    private void _timer_Elapsed(object? sender, ElapsedEventArgs e)
-    {
-		_score -= 1;
-		_totalTime += 1;
-    }
 
-    private void ConfirmAnswer_Click(object sender, EventArgs e)
+	private void TimerCallback()
+	{
+		_totalTime++;
+		TimeLabel.Text = $"Время: {_totalTime}";
+
+		_score--;
+	}
+
+    private async void ConfirmAnswer_Click(object sender, EventArgs e)
     {
-		GenerateRandomEquation();
-		if (true)
+		if (double.TryParse(AnsverInput.Text, out double number))
 		{
-
+			if (correctAnswer + _delta >= number && correctAnswer - _delta <= number)
+			{
+				_score += correctAnswerPointsCount;
+				ScoreLabel.Text = $"Счет: {_score}";
+			}
+			else
+			{
+				int count = 0;
+				if ((count = HealthContainer.Children.Count) > 1)
+				{
+					HealthContainer.Children.RemoveAt(count-1);
+				}
+				else
+				{
+					//сделать вывод об очках игрока и тд
+					await Navigation.PopAsync();//зактырие данного окна
+				}
+			}
 		}
+		GenerateRandomEquation();
     }
 
 	private void GenerateRandomEquation()
@@ -65,25 +87,49 @@ public partial class GamePage : ContentPage
 		{
 			case 0:
 				move = "+";
-				_correctAnswer = firstNumber + secondNumber;
+				correctAnswer = firstNumber + secondNumber;
 				break;
 
 			case 1:
 				move = "-";
-				_correctAnswer = firstNumber - secondNumber;
+				correctAnswer = firstNumber - secondNumber;
 				break;
 
 			case 2:
 				move = "*";
-				_correctAnswer = firstNumber * secondNumber;
+				correctAnswer = firstNumber * secondNumber;
 				break;
 
 			case 3:
 				move = "/";
-				_correctAnswer = firstNumber / secondNumber;
+				correctAnswer = firstNumber / secondNumber;
 				break;
 		}
 
 		EquationLabel.Text = $"{firstNumber} {move} {secondNumber} = ?";
+    }
+
+    private void EditNumber_Click(object sender, EventArgs e)
+    {
+		if (sender is Button button)
+		{
+			if (int.TryParse(button.Text, out int buttonNumber))
+			{
+				AnsverInput.Text += buttonNumber;
+			}
+			else if (button.Text == "DEL")
+			{
+				int length;
+				if ((length = AnsverInput.Text.Length) > 0)
+				{
+					AnsverInput.Text = AnsverInput.Text.Remove(length - 1);
+				}
+			}
+			else//точка
+			{
+				AnsverInput.Text += ".";
+			}
+		}
+
     }
 }
