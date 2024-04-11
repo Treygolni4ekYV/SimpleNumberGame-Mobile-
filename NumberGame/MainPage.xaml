@@ -39,11 +39,13 @@
                 
             <!--Правила-->
             <Button
-                Text="Правила"/>
+                Text="Правила"
+                Clicked="GoToAbout_Click"/>
             
             <!--Список лидеров-->
             <Button
-                Text="Список лидеров"/>
+                Text="Список лидеров"
+                Clicked="GoToLieders_Click"/>
 
 
         </VerticalStackLayout>

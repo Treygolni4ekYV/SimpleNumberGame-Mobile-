@@ -1,5 +1,5 @@
-using Android.Media;
-using System.Security.Principal;
+using Newtonsoft.Json;
+using NumberGame.Models;
 using System.Threading;
 using Timer = System.Threading.Timer;
 
@@ -7,11 +7,11 @@ namespace NumberGame;
 
 public partial class GamePage : ContentPage
 {
-	Random random = new Random();
+    const string dataKey = "MySuperSecretKey123";
+    Random random = new Random();
 
 	private string _playerName;
 	private int _score = 0;
-	private int _health = 3;
 
 	private IDispatcherTimer timer;
 	private int _totalTime = 0;
@@ -35,18 +35,13 @@ public partial class GamePage : ContentPage
 		GenerateRandomEquation();
 	}
 
-    ~GamePage() 
-	{
-		//сделать систему сохранени€
-		timer.Stop();
-	}
-
 	private void TimerCallback()
 	{
 		_totalTime++;
 		TimeLabel.Text = $"¬рем€: {_totalTime}";
 
 		_score--;
+		ScoreLabel.Text = $"—чет: {_score}";
 	}
 
     private async void ConfirmAnswer_Click(object sender, EventArgs e)
@@ -68,7 +63,42 @@ public partial class GamePage : ContentPage
 				else
 				{
 					//сделать вывод об очках игрока и тд
-					await Navigation.PopAsync();//зактырие данного окна
+
+					//сделать сохранение данных пользовател€
+
+					List<Player> players = new List<Player>();
+
+					string? value = await SecureStorage.Default.GetAsync(dataKey);
+					if (string.IsNullOrWhiteSpace(value))
+					{
+						players.Add(
+							new Player
+							{
+								Username = _playerName,
+								Score = _score
+							});
+					}
+					else
+					{
+						players = JsonConvert.DeserializeObject<List<Player>>(value!);
+
+						players.Add(
+							new Player
+							{
+								Username = _playerName,
+								Score = _score
+							});
+						players.OrderBy((player) => player.Score);
+						if (players.Count > 15)
+						{
+							players.RemoveAt(0);
+						}
+					}
+
+					string data = JsonConvert.SerializeObject(players);
+                    await SecureStorage.Default.SetAsync(dataKey, data);
+
+					await Navigation.PopAsync();//закрытие окна
 				}
 			}
 		}

@@ -24,6 +24,16 @@
 
             await Navigation.PushAsync(new GamePage(name));
         }
+
+        private void GoToAbout_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void GoToLieders_Click(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new LiedersPage());
+        }
     }
 
 }
