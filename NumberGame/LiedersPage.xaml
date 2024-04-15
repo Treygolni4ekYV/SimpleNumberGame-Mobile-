@@ -3,17 +3,64 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NumberGame.LiedersPage">
 
-    <VerticalStackLayout
-        Padding="15">
-        <Grid
-            Margin="0"
-            x:Name="PlayersDataContainer">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="15"
+            Spacing="15">
 
+            <Grid HeightRequest="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
 
-        </Grid>
-    </VerticalStackLayout>
+                <Label
+                    Text="Таблица лидеров"
+                    FontSize="28"
+                    HorizontalTextAlignment="Center"/>
+
+                <Button
+                    Grid.Column="1"
+                    Text="C"
+                    FontSize="16"
+                    Clicked="ClearAllData"/>        
+            </Grid>
+            
+            
+            <Grid
+                HorizontalOptions="Fill"
+                x:Name="PlayersDataContainer"
+                ColumnSpacing="2"
+                RowSpacing="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Label
+                    Grid.Column="0"
+                    Text="Игрок"
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="Start"
+                    FontSize="24"/>
+                
+                <Label
+                    Grid.Column="1"
+                    Text="Счет"
+                    FontAttributes="Bold"
+                    HorizontalTextAlignment="End"
+                    FontSize="24"/>
+            </Grid>
+
+            
+            
+            <Button
+                Text="Перейти в меню"
+                Clicked="GoToMenuClick"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

@@ -1,7 +1,5 @@
 using Newtonsoft.Json;
 using NumberGame.Models;
-using System.Threading;
-using Timer = System.Threading.Timer;
 
 namespace NumberGame;
 
@@ -17,8 +15,8 @@ public partial class GamePage : ContentPage
 	private int _totalTime = 0;
 
 	private double correctAnswer;
-	private const double _delta = 0.1; //максимальная погрешность игрока
-	private const int correctAnswerPointsCount = 15;
+	private const double _delta = 0.02; //максимальная погрешность игрока
+	private const int correctAnswerPointsCount = 50;
 
 	public GamePage(string playerName)
 	{
@@ -46,7 +44,10 @@ public partial class GamePage : ContentPage
 
     private async void ConfirmAnswer_Click(object sender, EventArgs e)
     {
-		if (double.TryParse(AnsverInput.Text, out double number))
+		string input = AnsverInput.Text;
+		double number = 0;
+
+		if (double.TryParse(input, out number) & string.IsNullOrWhiteSpace(input))
 		{
 			if (correctAnswer + _delta >= number && correctAnswer - _delta <= number)
 			{
@@ -107,8 +108,11 @@ public partial class GamePage : ContentPage
 
 	private void GenerateRandomEquation()
 	{
-		double firstNumber = Math.Round(random.NextDouble() * 10, 2);
-		double secondNumber = Math.Round(random.NextDouble() * 10, 2);
+		//короче, при каждом варианте вычислений мы будет геренить разные числа, бо иначе оно делает не укусна
+
+		AnsverInput.Text = "";
+
+		double firstNumber = 0, secondNumber = 0; 
 
 		string move = "";
 
@@ -117,22 +121,56 @@ public partial class GamePage : ContentPage
 		{
 			case 0:
 				move = "+";
-				correctAnswer = firstNumber + secondNumber;
+
+				do
+				{
+					firstNumber = Math.Round(random.NextDouble() * 10, 2);
+					secondNumber = Math.Round(random.NextDouble() * 10, 2);
+				} while (firstNumber <= 0 | secondNumber <= 0);
+
+                correctAnswer = firstNumber + secondNumber;
 				break;
 
 			case 1:
 				move = "-";
-				correctAnswer = firstNumber - secondNumber;
+
+				//генерим до тех пор, пока не исключим отрицательный вариант
+				do
+				{
+					do
+					{
+						correctAnswer = Math.Round(random.NextDouble() * 10, 2);
+						firstNumber = Math.Round(random.NextDouble() * 10, 1);
+					} while (correctAnswer <= 0 | firstNumber <= 0);
+
+					secondNumber = Math.Round(correctAnswer - firstNumber, 2);
+				} while (firstNumber - secondNumber <= 0 | secondNumber <= 0);
+
+
 				break;
 
 			case 2:
 				move = "*";
-				correctAnswer = firstNumber * secondNumber;
+
+                do
+                {
+                    firstNumber = Math.Round(random.NextDouble() * 10, 1);
+                    secondNumber = Math.Round(random.NextDouble() * 10, 1);
+                } while (firstNumber <= 0 | secondNumber <= 0);
+
+                correctAnswer = firstNumber * secondNumber;
 				break;
 
 			case 3:
 				move = "/";
-				correctAnswer = firstNumber / secondNumber;
+
+                do
+                {
+                    firstNumber = Math.Round(random.NextDouble() * 10, 1);
+                    secondNumber = Math.Round(random.NextDouble() * 5, 0);
+                } while (firstNumber <= 0 | secondNumber <= 1);
+
+                correctAnswer = firstNumber / secondNumber;
 				break;
 		}
 
